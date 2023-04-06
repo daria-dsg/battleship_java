@@ -49,6 +49,10 @@ public class BattleField {
             throw new IllegalArgumentException("Error! Wrong length of the " + shipType.toString() + "! Try again :");
         }
 
+        if (ship.isDiagonal()) {
+            throw new IllegalArgumentException("Error! Wrong ship location! Try again:");
+        }
+
         for (int i = ship.getMinRow(); i <= ship.getMaxRow(); i++) {
             for (int j = ship.getMinCol(); j <= ship.getMaxCol(); j++) {
                 field[i][j] = '0';

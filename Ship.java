@@ -51,4 +51,8 @@ public class Ship {
         return maxRow - minRow == shipType.getCell() - 1  || maxCol - minCol == shipType.getCell() - 1;
     }
 
+    boolean isDiagonal() {
+        return maxRow != minRow && maxCol != minCol;
+    }
+
 }
