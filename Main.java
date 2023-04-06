@@ -10,11 +10,10 @@ public class Main {
     public static void main(String[] args) {
         // Write your code here
         field.print();
-        promptCoordinates();
+        play();
     }
 
-    public static void promptCoordinates() {
-
+    public static void play() {
         for (ShipType ship : ShipType.values()) {
             System.out.printf("Enter the coordinates of the %s (%d cells):%n", ship.toString(), ship.getCell());
 
