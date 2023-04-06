@@ -53,12 +53,30 @@ public class BattleField {
             throw new IllegalArgumentException("Error! Wrong ship location! Try again:");
         }
 
+        if (isAnyNeighbours(ship)) {
+            throw new IllegalArgumentException("Error! You placed it too close to another one. Try again:");
+        }
+
         for (int i = ship.getMinRow(); i <= ship.getMaxRow(); i++) {
             for (int j = ship.getMinCol(); j <= ship.getMaxCol(); j++) {
-                field[i][j] = '0';
+                field[i][j] = 'O';
             }
         }
     }
 
+    boolean isAnyNeighbours(Ship ship) {
+        for (int i = ship.getMinRow() - 1; i <= ship.getMaxRow() + 1; i++) {
+            for (int j = ship.getMinCol() - 1; j <= ship.getMaxCol() + 1; j++) {
+                if ( isCorrectPosition(i, j) && field[i][j] == 'O') {
+                    return true;
+                }
+            }
+        }
 
+        return false;
+    }
+
+    boolean isCorrectPosition(int row, int col) {
+       return row >= 0 && row < size && col  >= 0 && col < size;
+    }
 }
