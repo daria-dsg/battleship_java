@@ -55,4 +55,6 @@ public class Ship {
         return maxRow != minRow && maxCol != minCol;
     }
 
+
+
 }
