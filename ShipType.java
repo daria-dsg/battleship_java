@@ -31,5 +31,4 @@ public enum ShipType {
         return this.cell;
     }
 
-
 }
