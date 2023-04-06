@@ -53,4 +53,8 @@ public class Position {
     boolean isDiagonal() {
         return maxRow != minRow && maxCol != minCol;
     }
+
+    boolean isCorrect(int size) {
+        return startRow >= 0 && endRow < size && startCol  >= 0 && endCol < size;
+    }
 }
