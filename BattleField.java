@@ -18,10 +18,9 @@ public class BattleField {
        }
    }
 
-   void print() {
-       printCol();
-       printRow();
-   }
+   private int getSize(){
+        return this.size;
+    }
 
    private void printCol() {
        System.out.print("  ");
@@ -42,32 +41,10 @@ public class BattleField {
        }
    }
 
-    void placeShips(ShipType shipType, String start, String end) {
-        Ship ship = new Ship(shipType, start, end);
-
-        if (!ship.isCorrectLength()) {
-            throw new IllegalArgumentException("Error! Wrong length of the " + shipType.toString() + "! Try again :");
-        }
-
-        if (ship.isDiagonal()) {
-            throw new IllegalArgumentException("Error! Wrong ship location! Try again:");
-        }
-
-        if (isAnyNeighbours(ship)) {
-            throw new IllegalArgumentException("Error! You placed it too close to another one. Try again:");
-        }
-
-        for (int i = ship.getMinRow(); i <= ship.getMaxRow(); i++) {
-            for (int j = ship.getMinCol(); j <= ship.getMaxCol(); j++) {
-                field[i][j] = 'O';
-            }
-        }
-    }
-
-    boolean isAnyNeighbours(Ship ship) {
-        for (int i = ship.getMinRow() - 1; i <= ship.getMaxRow() + 1; i++) {
-            for (int j = ship.getMinCol() - 1; j <= ship.getMaxCol() + 1; j++) {
-                if ( isCorrectPosition(i, j) && field[i][j] == 'O') {
+    private boolean isAnyNeighbours(Position position) {
+        for (int i = position.getMinRow() - 1; i <= position.getMaxRow() + 1; i++) {
+            for (int j = position.getMinCol() - 1; j <= position.getMaxCol() + 1; j++) {
+                if ( position.isCorrect(getSize()) && field[i][j] == 'O' ) {
                     return true;
                 }
             }
@@ -76,7 +53,31 @@ public class BattleField {
         return false;
     }
 
-    boolean isCorrectPosition(int row, int col) {
-       return row >= 0 && row < size && col  >= 0 && col < size;
+    void placeShips(ShipType ship, String start, String end) {
+        Position position = new Position(start, end);
+
+        if (!position.isCorrectLength(ship)) {
+            throw new IllegalArgumentException("Error! Wrong length of the " + ship.toString() + "! Try again :");
+        }
+
+        if (position.isDiagonal()) {
+            throw new IllegalArgumentException("Error! Wrong ship location! Try again:");
+        }
+
+        if (isAnyNeighbours(position)) {
+            throw new IllegalArgumentException("Error! You placed it too close to another one. Try again:");
+        }
+
+        for (int i = position.getMinRow(); i <= position.getMaxRow(); i++) {
+            for (int j = position.getMinCol(); j <= position.getMaxCol(); j++) {
+                field[i][j] = 'O';
+            }
+        }
     }
+
+    void print() {
+        printCol();
+        printRow();
+    }
+
 }
