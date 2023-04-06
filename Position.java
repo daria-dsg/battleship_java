@@ -1,6 +1,6 @@
 package battleship;
 
-public class Ship {
+public class Position {
     int startRow;
     int startCol;
     int endRow;
@@ -9,10 +9,9 @@ public class Ship {
     int maxCol;
     int minRow;
     int minCol;
-    ShipType shipType;
 
-    Ship(ShipType shipType, String start, String end) {
-        this.shipType = shipType;
+
+    Position (String start, String end) {
         this.startRow = getRow(start);
         this.startCol = getCol(start);
         this.endRow = getRow(end);
@@ -47,14 +46,11 @@ public class Ship {
         return this.minCol;
     }
 
-    boolean isCorrectLength() {
-        return maxRow - minRow == shipType.getCell() - 1  || maxCol - minCol == shipType.getCell() - 1;
+    boolean isCorrectLength(ShipType ship) {
+        return maxRow - minRow == ship.getCell() - 1  || maxCol - minCol == ship.getCell() - 1;
     }
 
     boolean isDiagonal() {
         return maxRow != minRow && maxCol != minCol;
     }
-
-
-
 }
