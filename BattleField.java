@@ -53,13 +53,13 @@ public class BattleField {
        }
    }
 
-    private boolean isAxesCorrect(int i, int j) {return i >= 0 && j < size && j >= 0 && i < size;
+    private boolean isPosValid(int i, int j) {return i >= 0 && j < size && j >= 0 && i < size;
     }
 
     private boolean isAnyNeighbours(PositionPair positionPair) {
         for (int i = positionPair.getMinRow() - 1; i <= positionPair.getMaxRow() + 1; i++) {
             for (int j = positionPair.getMinCol() - 1; j <= positionPair.getMaxCol() + 1; j++) {
-                if ( !isAxesCorrect(i, j)) { continue; }
+                if ( !isPosValid(i, j)) { continue; }
                 if ( isShip(i, j)) { return true; }
             }
         }
@@ -105,6 +105,9 @@ public class BattleField {
        Position pos = new Position(posStr);
        int i = pos.getRow();
        int j = pos.getCol();
+       if (!isPosValid(i, j)) {
+           throw new IllegalArgumentException("Error! You entered the wrong coordinates! Try again:");
+       }
        if (isShip(i, j)) {
            setField(i, j, Sign.HIT.getSign());
            print();

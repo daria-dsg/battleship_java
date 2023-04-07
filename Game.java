@@ -30,7 +30,15 @@ public class Game {
     }
     private void takeTurn() {
         System.out.println("Take a shot!");
-        field.hitShip(scanner.next());
+
+        while (true) {
+            try {
+                field.hitShip(scanner.next());
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
     void play() {
         field.print();
