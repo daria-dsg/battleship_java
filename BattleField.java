@@ -41,10 +41,15 @@ public class BattleField {
        }
    }
 
+    private boolean isAxesCorrect(int i, int j) {
+        return i >= 0 && j < size && j >= 0 && i < size;
+    }
+
     private boolean isAnyNeighbours(Position position) {
         for (int i = position.getMinRow() - 1; i <= position.getMaxRow() + 1; i++) {
             for (int j = position.getMinCol() - 1; j <= position.getMaxCol() + 1; j++) {
-                if ( position.isCorrect(getSize()) && field[i][j] == 'O' ) {
+                if ( !isAxesCorrect(i, j)) { continue; }
+                if (field[i][j] == 'O' ) {
                     return true;
                 }
             }
