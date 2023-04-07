@@ -13,7 +13,7 @@ public class Main {
         play();
     }
 
-    public static void play() {
+    public static void placeShips() {
         for (ShipType ship : ShipType.values()) {
             System.out.printf("Enter the coordinates of the %s (%d cells):%n", ship.toString(), ship.getCell());
 
@@ -21,7 +21,7 @@ public class Main {
                 try {
                     String start = scanner.next().toUpperCase();
                     String end = scanner.next().toUpperCase();
-                    field.placeShips(ship, start, end);
+                    field.place(ship, start, end);
                     break;
                 } catch (Exception e)   {
                     System.out.println(e.getMessage());
@@ -30,4 +30,8 @@ public class Main {
             field.print();
         }
     }
+
+    public static void play(
+
+    )
 }
