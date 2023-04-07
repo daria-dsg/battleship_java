@@ -54,7 +54,4 @@ public class Position {
         return maxRow != minRow && maxCol != minCol;
     }
 
-    boolean isCorrect(int size) {
-        return startRow >= 0 && endRow < size && startCol  >= 0 && endCol < size;
-    }
 }
