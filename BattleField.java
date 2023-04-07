@@ -58,7 +58,7 @@ public class BattleField {
         return false;
     }
 
-    void placeShips(ShipType ship, String start, String end) {
+    void place(ShipType ship, String start, String end) {
         Position position = new Position(start, end);
 
         if (!position.isCorrectLength(ship)) {
