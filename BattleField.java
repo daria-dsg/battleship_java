@@ -4,16 +4,28 @@ public class BattleField {
     private char[][] field;
     private int size;
 
+    enum Sign {
+        WATER('~'), SHIP('O'), HIT('X'), MISSED('M');
+        char s;
+        Sign (char s) {
+            this.s = s;
+        }
+
+        char getSign() {
+            return this.s;
+        }
+    }
+
    BattleField(int size) {
        this.size = size;
        this.field = new char[size][size];
-       initField();
+       initWater();
    }
 
-   private void initField() {
+   private void initWater() {
        for (int i = 0; i < size; i++) {
            for (int j = 0; j < size; j++) {
-               field[i][j] = '~';
+               setField(i, j, Sign.WATER.getSign());
            }
        }
    }
@@ -41,41 +53,45 @@ public class BattleField {
        }
    }
 
-    private boolean isAxesCorrect(int i, int j) {
-        return i >= 0 && j < size && j >= 0 && i < size;
+    private boolean isAxesCorrect(int i, int j) {return i >= 0 && j < size && j >= 0 && i < size;
     }
 
-    private boolean isAnyNeighbours(Position position) {
-        for (int i = position.getMinRow() - 1; i <= position.getMaxRow() + 1; i++) {
-            for (int j = position.getMinCol() - 1; j <= position.getMaxCol() + 1; j++) {
+    private boolean isAnyNeighbours(PositionPair positionPair) {
+        for (int i = positionPair.getMinRow() - 1; i <= positionPair.getMaxRow() + 1; i++) {
+            for (int j = positionPair.getMinCol() - 1; j <= positionPair.getMaxCol() + 1; j++) {
                 if ( !isAxesCorrect(i, j)) { continue; }
-                if (field[i][j] == 'O' ) {
-                    return true;
-                }
+                if ( isShip(i, j)) { return true; }
             }
         }
-
         return false;
     }
 
-    void place(ShipType ship, String start, String end) {
-        Position position = new Position(start, end);
+    private void setField(int i, int j, char sign ) {
+        field[i][j] = sign;
+    }
 
-        if (!position.isCorrectLength(ship)) {
+    private boolean isShip (int i, int j) {
+        return field[i][j] == Sign.SHIP.getSign();
+    }
+
+    void place(ShipType ship, String start, String end) {
+        PositionPair positionPair = new PositionPair(start, end);
+
+        if (!positionPair.isCorrectLength(ship)) {
             throw new IllegalArgumentException("Error! Wrong length of the " + ship.toString() + "! Try again :");
         }
 
-        if (position.isDiagonal()) {
+        if (positionPair.isDiagonal()) {
             throw new IllegalArgumentException("Error! Wrong ship location! Try again:");
         }
 
-        if (isAnyNeighbours(position)) {
+        if (isAnyNeighbours(positionPair)) {
             throw new IllegalArgumentException("Error! You placed it too close to another one. Try again:");
         }
 
-        for (int i = position.getMinRow(); i <= position.getMaxRow(); i++) {
-            for (int j = position.getMinCol(); j <= position.getMaxCol(); j++) {
-                field[i][j] = 'O';
+        for (int i = positionPair.getMinRow(); i <= positionPair.getMaxRow(); i++) {
+            for (int j = positionPair.getMinCol(); j <= positionPair.getMaxCol(); j++) {
+                setField(i, j, Sign.SHIP.getSign());
             }
         }
     }
@@ -85,4 +101,18 @@ public class BattleField {
         printRow();
     }
 
+    void hitShip(String posStr) {
+       Position pos = new Position(posStr);
+       int i = pos.getRow();
+       int j = pos.getCol();
+       if (isShip(i, j)) {
+           setField(i, j, Sign.HIT.getSign());
+           print();
+           System.out.println("You hit a ship!");
+       } else {
+           setField(i, j, Sign.MISSED.getSign());
+           print();
+           System.out.println("You missed!");
+       }
+    }
 }
