@@ -34,6 +34,10 @@ public class BattleField {
         return this.size;
     }
 
+    private char getPos(int i, int j){
+        return field[i][j];
+    }
+
    private void printCol() {
        System.out.print("  ");
        for (int i = 1; i <= size; i++) {
@@ -43,11 +47,15 @@ public class BattleField {
        System.out.println();
    }
 
-   private void printRow() {
+   private void printRow(boolean isHidden) {
        for (int i = 0; i < size; i++) {
            System.out.print((char) (i + 65) + " ");
            for (int j = 0; j < size; j++) {
-               System.out.print(field[i][j] + " ");
+               if (isHidden && isShip(i,j)) {
+                   System.out.print(Sign.WATER.getSign() + " ");
+               } else {
+                   System.out.print(getPos(i, j) + " ");
+               }
            }
            System.out.println();
        }
@@ -96,26 +104,29 @@ public class BattleField {
         }
     }
 
-    void print() {
+    void print(boolean isHidden) {
         printCol();
-        printRow();
+        printRow(isHidden);
     }
 
     void hitShip(String posStr) {
        Position pos = new Position(posStr);
        int i = pos.getRow();
        int j = pos.getCol();
+
        if (!isPosValid(i, j)) {
            throw new IllegalArgumentException("Error! You entered the wrong coordinates! Try again:");
        }
        if (isShip(i, j)) {
            setField(i, j, Sign.HIT.getSign());
-           print();
+           print(true);
            System.out.println("You hit a ship!");
+           print(false);
        } else {
            setField(i, j, Sign.MISSED.getSign());
-           print();
+           print(true);
            System.out.println("You missed!");
+           print(false);
        }
     }
 }

@@ -19,13 +19,13 @@ public class Game {
                     System.out.println(e.getMessage());
                 }
             }
-            field.print();
+            field.print(false);
         }
     }
 
     private void start() {
         System.out.println("The game starts!");
-        field.print();
+        field.print(true);
         takeTurn();
     }
     private void takeTurn() {
@@ -33,7 +33,7 @@ public class Game {
 
         while (true) {
             try {
-                field.hitShip(scanner.next());
+                field.hitShip(scanner.next().toUpperCase());
                 break;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -41,7 +41,7 @@ public class Game {
         }
     }
     void play() {
-        field.print();
+        field.print(true);
         placeShips();
         start();
     }
