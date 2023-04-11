@@ -43,7 +43,7 @@ public class PositionPair {
     }
 
     boolean isCorrectLength(ShipType ship) {
-        return maxRow - minRow == ship.getCell() - 1  || maxCol - minCol == ship.getCell() - 1;
+        return maxRow - minRow == ship.getSize() - 1  || maxCol - minCol == ship.getSize() - 1;
     }
 
     boolean isDiagonal() {

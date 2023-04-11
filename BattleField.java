@@ -1,16 +1,17 @@
 package battleship;
 
+import java.util.ArrayList;
+
 public class BattleField {
     private char[][] field;
     private int size;
-
+    private ArrayList<Ship> ships = new ArrayList<Ship>();
     enum Sign {
         WATER('~'), SHIP('O'), HIT('X'), MISSED('M');
         char s;
         Sign (char s) {
             this.s = s;
         }
-
         char getSign() {
             return this.s;
         }
@@ -61,7 +62,7 @@ public class BattleField {
        }
    }
 
-    private boolean isPosValid(int i, int j) {return i >= 0 && j < size && j >= 0 && i < size;
+    private boolean isPosValid(int i, int j) { return i >= 0 && i < size && j >= 0 && j < size;
     }
 
     private boolean isAnyNeighbours(PositionPair positionPair) {
@@ -81,12 +82,24 @@ public class BattleField {
     private boolean isShip (int i, int j) {
         return field[i][j] == Sign.SHIP.getSign();
     }
+    private boolean isHit (int i, int j) {
+        return field[i][j] == Sign.HIT.getSign();
+    }
 
-    void place(ShipType ship, String start, String end) {
+    private Ship getShipByPosition(int row, int col) {
+        for (Ship ship : ships) {
+            if (ship.isInPosition(row, col)) {return ship;}
+        }
+
+        return null;
+    }
+
+
+    void place(ShipType shipType, String start, String end) {
         PositionPair positionPair = new PositionPair(start, end);
 
-        if (!positionPair.isCorrectLength(ship)) {
-            throw new IllegalArgumentException("Error! Wrong length of the " + ship.toString() + "! Try again :");
+        if (!positionPair.isCorrectLength(shipType)) {
+            throw new IllegalArgumentException("Error! Wrong length of the " + shipType.toString() + "! Try again :");
         }
 
         if (positionPair.isDiagonal()) {
@@ -96,6 +109,9 @@ public class BattleField {
         if (isAnyNeighbours(positionPair)) {
             throw new IllegalArgumentException("Error! You placed it too close to another one. Try again:");
         }
+
+        ships.add(new Ship(shipType, positionPair));
+
 
         for (int i = positionPair.getMinRow(); i <= positionPair.getMaxRow(); i++) {
             for (int j = positionPair.getMinCol(); j <= positionPair.getMaxCol(); j++) {
@@ -109,7 +125,7 @@ public class BattleField {
         printRow(isHidden);
     }
 
-    void hitShip(String posStr) {
+    void makeShot(String posStr) {
        Position pos = new Position(posStr);
        int i = pos.getRow();
        int j = pos.getCol();
@@ -117,16 +133,30 @@ public class BattleField {
        if (!isPosValid(i, j)) {
            throw new IllegalArgumentException("Error! You entered the wrong coordinates! Try again:");
        }
-       if (isShip(i, j)) {
+
+
+       if (isShip(i, j) || isHit(i, j)) {
+           Ship ship = getShipByPosition(i, j);
+
            setField(i, j, Sign.HIT.getSign());
+           ship.hit();
            print(true);
-           System.out.println("You hit a ship!");
-           print(false);
+           if (isAllShipHit()) {return;}
+
+           String str = ship.isSink() ? "You sank a ship! Specify a new target: " : "You hit a ship! Try again: ";
+           System.out.println(str);
        } else {
            setField(i, j, Sign.MISSED.getSign());
            print(true);
-           System.out.println("You missed!");
-           print(false);
+           System.out.println("You missed! Try again: ");
        }
+    }
+
+    boolean isAllShipHit() {
+        for (Ship ship : ships) {
+            if (!ship.isSink()) {return false;}
+        }
+
+        return true;
     }
 }

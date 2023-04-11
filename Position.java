@@ -22,4 +22,5 @@ public class Position {
     int getCol() {
         return this.col;
     }
+
 }

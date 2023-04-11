@@ -7,7 +7,7 @@ public class Game {
     private static BattleField field = new BattleField(10);
     private static void placeShips() {
         for (ShipType ship : ShipType.values()) {
-            System.out.printf("Enter the coordinates of the %s (%d cells):%n", ship.toString(), ship.getCell());
+            System.out.printf("Enter the coordinates of the %s (%d cells):%n", ship.toString(), ship.getSize());
 
             while (true) {
                 try {
@@ -26,23 +26,29 @@ public class Game {
     private void start() {
         System.out.println("The game starts!");
         field.print(true);
-        takeTurn();
+        System.out.println("Take a shot!");
     }
     private void takeTurn() {
-        System.out.println("Take a shot!");
-
-        while (true) {
+        while (isNotOver()) {
             try {
-                field.hitShip(scanner.next().toUpperCase());
-                break;
+                String position = scanner.next().toUpperCase();
+                field.makeShot(position);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
+
+        System.out.println("You sank the last ship. You won. Congratulations!");
     }
+
+    private boolean isNotOver() {
+        return !field.isAllShipHit();
+    }
+
     void play() {
         field.print(true);
         placeShips();
         start();
+        takeTurn();
     }
 }

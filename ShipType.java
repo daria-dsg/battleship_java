@@ -3,10 +3,10 @@ package battleship;
 public enum ShipType {
     AIRCRAFT(5), BATTLESHIP(4), SUBMARINE(3), CRUISER(3), DESTROYER(2);
 
-    private int cell;
+    private int size;
 
     private ShipType(int cell) {
-        this.cell = cell;
+        this.size = cell;
     }
 
     @Override
@@ -27,8 +27,7 @@ public enum ShipType {
         }
     }
 
-    int getCell() {
-        return this.cell;
+    int getSize() {
+        return this.size;
     }
-
 }
