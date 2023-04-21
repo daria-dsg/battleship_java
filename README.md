@@ -9,8 +9,8 @@ My learning goals were to practice principles of OOP, to learn how to handle exc
 I learn from this project: 
 * How to provide code extensibility by implementing method overriding 
 * What is runtime polymorphism
-* How to reduce error and improve readability of your code with enum types.
-* How to reuse the code via composition
+* How to reduce errors and improve readability of your code with enum types.
+* How to reuse code via composition
 * How to control run-time errors with exceptions
 
 Moreover, I practiced:
