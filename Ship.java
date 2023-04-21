@@ -5,24 +5,19 @@ public class Ship {
     private PositionPair positionPair;
     private int hitTimes;
 
-    Ship (ShipType shipType, PositionPair positionPair) {
+    Ship (ShipType shipType, PositionPair positionPair ) {
         this.hitTimes = 0;
         this.shipType = shipType;
         this.positionPair = positionPair;
     }
 
-    boolean isInPosition(int row, int col) {
-        boolean isRow = row >= positionPair.getMinRow() && row <= positionPair.getMaxRow();
-        boolean isCol = col >= positionPair.getMinCol() && col <= positionPair.getMaxCol();
+    public PositionPair getPositionPair() { return this.positionPair; }
 
-        return isRow && isCol;
-    }
-
-    void hit() {
+    public void hit() {
         hitTimes += 1;
     }
 
-    boolean isSink() {
+    public boolean isSink() {
         return hitTimes >= shipType.getSize();
     }
 }

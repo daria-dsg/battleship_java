@@ -27,7 +27,7 @@ public enum ShipType {
         }
     }
 
-    int getSize() {
+    public int getSize() {
         return this.size;
     }
 }

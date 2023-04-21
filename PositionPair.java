@@ -10,14 +10,11 @@ public class PositionPair {
     private int minRow;
     private int minCol;
 
-    PositionPair (String start, String end) {
-        Position startPos = new Position(start);
-        Position endPos = new Position(end);
-
-        this.startRow = startPos.getRow();
-        this.startCol = startPos.getCol();
-        this.endRow = endPos.getRow();
-        this.endCol = endPos.getCol();
+    PositionPair (int startRow, int startCol, int endRow, int endCol) {
+        this.startRow = startRow;
+        this.startCol = startCol;
+        this.endRow = endRow;
+        this.endCol = endCol;
 
         this.maxRow = Math.max(startRow, endRow);
         this.maxCol = Math.max(startCol, endCol);
@@ -25,29 +22,23 @@ public class PositionPair {
         this.minCol = Math.min(startCol, endCol);
     }
 
-
-    int getMaxRow() {
+    public int getMaxRow() {
         return this.maxRow;
     }
 
-    int getMinRow() {
+    public int getMinRow() {
         return this.minRow;
     }
 
-    int getMaxCol() {
+    public int getMaxCol() {
         return this.maxCol;
     }
 
-    int getMinCol() {
+    public int getMinCol() {
         return this.minCol;
     }
 
-    boolean isCorrectLength(ShipType ship) {
-        return maxRow - minRow == ship.getSize() - 1  || maxCol - minCol == ship.getSize() - 1;
+    public boolean isInclude(int row, int col) {
+        return getMinRow() <= row && row <= getMaxRow() && getMinCol() <= col && col <= getMaxCol();
     }
-
-    boolean isDiagonal() {
-        return maxRow != minRow && maxCol != minCol;
-    }
-
 }
