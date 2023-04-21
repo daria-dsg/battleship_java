@@ -1,11 +1,11 @@
 ## Battleship game
 Simple command line battleship game with two players, created with Java.
 
-### What was the purpose of this project?
+#### What was the purpose of this project?
 With this project, I wanted to understand how to develop such as complex program, as a game.
 My learning goals were to practice principles of OOP, to learn how to handle exceptions and how to process user input.
 
-### What was my learning outcome? 
+#### What was my learning outcome? 
 I learn from this project: 
 * How to provide code extensibility by implementing method overriding 
 * What is runtime polymorphism
@@ -18,5 +18,5 @@ Moreover, I practiced:
 * writing pseudocode
 * debugging techniques 
 
-### demo of "bad" input handling 
+#### demo of "bad" input handling 
 ![demo battleship](https://user-images.githubusercontent.com/94113384/233617032-abc5d07d-382a-4213-b57d-4b48ea41fdc8.gif)
